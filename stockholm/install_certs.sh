@@ -19,8 +19,8 @@ function get_certs {
     certsdir=$4
 
     token=$(step ca token ${hostname} --ca-url https://${CA_HOST}:${CA_PORT} --root ca/certs/roots.pem --password-file ca/password.txt)
-    step ca certificate --token ${token} ${hostname} ${certpath} ${keypath}
     mkdir -p ${certsdir}
+    step ca certificate --token ${token} ${hostname} ${certpath} ${keypath}
     cp ca/certs/roots.pem ${certsdir}
 }
 
