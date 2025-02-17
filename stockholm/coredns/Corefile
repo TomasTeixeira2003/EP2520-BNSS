@@ -1,0 +1,36 @@
+. {
+    # Forward all general DNS queries to Cloudflare and Google DNS
+    forward . 1.1.1.1 8.8.8.8 {
+        prefer_udp
+        health_check 5s
+    }
+    # Enable error logging
+    errors
+    # Enable response caching
+    cache 30
+    # Enable query logging
+    log
+}
+
+{$NC_HOST} {
+    # Redirect all company.internal queries to specific IPs
+    hosts {
+        # Main domain
+        {$NC_IP} {$NC_HOST}
+        # Subdomains
+        # 192.168.1.101 app.company.internal
+        # 192.168.1.102 db.company.internal
+        # 192.168.1.103 api.company.internal
+        
+        # Use this for IPv6 if needed
+        # 2001:db8::1 company.internal
+
+        # Reload hosts file if changed
+        reload 60s
+        fallthrough
+    }
+    # Enable error logging for this zone
+    errors
+    # Cache responses for this zone
+    cache 30
+}

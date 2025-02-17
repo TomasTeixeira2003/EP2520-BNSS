@@ -5,7 +5,7 @@ Configurations of the Stockholm site.
 ## Prerequisites
 
 - `step` CLI tool ([help](https://smallstep.com/docs/step-cli/installation/))
-- `/etc/hosts` configured to redirect `nextcloud.internal` to 127.0.0.1 in lieu of a DNS server
+- Your DNS server in `/etc/resolv.conf` (or wherever your OS stores it) should be set to 127.0.0.1
 
 ## Setup
 
@@ -24,7 +24,13 @@ Configurations of the Stockholm site.
     ./install_certs.sh
     ```
 
-3. Start the NextCloud service
+3. Start the DNS service
+
+    ```bash
+    docker compose up -d
+    ```
+
+4. Start the NextCloud service
 
     ```bash
     cd nextcloud
