@@ -34,3 +34,13 @@
     # Cache responses for this zone
     cache 30
 }
+
+{$SY_HOST} {
+    hosts {
+        {$SY_IP} {$SY_IP}
+        reload 60s
+        fallthrough
+    }
+    errors
+    cache 30
+}

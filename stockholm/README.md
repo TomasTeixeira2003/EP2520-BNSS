@@ -30,7 +30,9 @@ Configurations of the Stockholm site.
     docker compose up -d
     ```
 
-4. Start the Keycloak service
+4. Generate the certificate using the step found in `synapse/README.md`
+
+5. Start the Keycloak service
 
     ```bash
     cd keycloak
@@ -38,12 +40,11 @@ Configurations of the Stockholm site.
     cd ..
     ```
 
-    Use the web UI to add a new realm, a new Client for Nextcloud and a new User that will be able to log in. - https://www.keycloak.org/docs/latest/server_admin/index.html
-    
-    Admin account for Keycloak is defined in the KEYCLOAK_ADMIN, KEYCLOAK_ADMIN_PASSWORD environment variables
+    Use the web UI to add a new realm, a new Client for Nextcloud and a new User that will be able to log in. - <https://www.keycloak.org/docs/latest/server_admin/index.html>
 
+    Admin account for Keycloak is defined in the `KEYCLOAK_ADMIN`, `KEYCLOAK_ADMIN_PASSWORD` environment variables
 
-5. Start the NextCloud service
+6. Start the NextCloud service
 
     ```bash
     cd nextcloud
@@ -52,16 +53,15 @@ Configurations of the Stockholm site.
     ```
 
     Add our CA certificate to the nextcloud's trusted certificates.
-    
+
     ```bash
     ./add_ca_cert_to_nc_trusted.sh
     ```
-    <br/>
-    Install the OpenID Connect user backend app in Nextcloud.<br/>
-    In Administration settings, select OpenID Connect.<br/>
-    Register Keycloud as a provider.
-    You will need the ClientID and secret that was created in Keycloak for the Nextcloud client, as well as the discovery endpoint.<br/><br/>
-    The discovery endpoint has the following format: <br/><br/>
+
+    - Install the OpenID Connect user backend app in Nextcloud.
+    - In Administration settings, select OpenID Connect.
+    - Register Keycloud as a provider.
+    - You will need the ClientID and secret that was created in Keycloak for the Nextcloud client, as well as the discovery endpoint.
+    - The discovery endpoint has the following format:
 
     https://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/{REALM}/.well-known/openid-configuration.
-    

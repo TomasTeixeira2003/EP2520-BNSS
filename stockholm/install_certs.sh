@@ -3,6 +3,7 @@ set -e
 
 # TODO central config
 NC_HOST=${NC_HOST:-nextcloud.internal}
+SY_HOST=${SY_HOST:-chat.internal}
 KC_HOST=${KC_HOST:-keycloak.internal}
 
 CA_HOST=${CA_HOST:-localhost}
@@ -26,4 +27,5 @@ function get_certs {
 }
 
 get_certs ${NC_HOST} nextcloud/certs/cert.pem nextcloud/certs/key.pem nextcloud/certs
+get_certs ${SY_HOST} nextcloud/synapse/certs/cert.pem nextcloud/synapse/certs/key.pem nextcloud/synapse/certs
 get_certs ${KC_HOST} keycloak/certs/cert.pem keycloak/certs/key.pem keycloak/certs

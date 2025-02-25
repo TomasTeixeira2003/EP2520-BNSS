@@ -10,3 +10,5 @@ services:
     environment:
       - NC_IP=${NC_IP}
       - NC_HOST=${NC_HOST}
+      - SY_IP=${SY_IP}
+      - SY_HOST=${SY_HOST}

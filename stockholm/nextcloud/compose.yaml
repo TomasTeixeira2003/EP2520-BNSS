@@ -47,8 +47,36 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certs:/etc/nginx/certs/nextcloud:ro
+      - ./synapse/certs:/etc/nginx/certs/chat:ro
       - ../keycloak/certs:/etc/nginx/certs/keycloak:ro
+  
+  synapse:
+    image: docker.io/matrixdotorg/synapse:latest
+    # Since synapse does not retry to connect to the database, restart upon
+    # failure
+    restart: unless-stopped
+    # See the readme for a full documentation of the environment settings
+    # NOTE: You must edit homeserver.yaml to use postgres, it defaults to sqlite
+    environment:
+      - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+      - SYNAPSE_TLS_CERTIFICATE_PATH=/data/ssl/cert.pem
+      - SYNAPSE_TLS_PRIVATE_KEY_PATH=/data/ssl/key.pem
+    volumes:
+      # You may either store all the files in a local folder
+      - synapse-data:/data
+      - ./synapse/certs:/data/ssl
+      # .. or you may split this between different storage points
+      # - ./files:/data
+      # - /path/to/ssd:/data/uploads
+      # - /path/to/large_hdd:/data/media
+    # In order to expose Synapse, remove one of the following, you might for
+    # instance expose the TLS port directly:
+    ports:
+      - 8008:8008/tcp
+    # ... or use a reverse proxy, here is an example for traefik:
+
 
 volumes: # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer # This line is not allowed to be changed as otherwise the built-in backup solution will not work
+  synapse-data:
