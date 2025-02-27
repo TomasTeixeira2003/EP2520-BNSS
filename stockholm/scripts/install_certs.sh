@@ -26,6 +26,6 @@ function get_certs {
     cp ca/certs/roots.pem ${certsdir}
 }
 
-get_certs ${NC_HOST} nextcloud/certs/cert.pem nextcloud/certs/key.pem nextcloud/certs
-get_certs ${SY_HOST} nextcloud/synapse/certs/cert.pem nextcloud/synapse/certs/key.pem nextcloud/synapse/certs
-get_certs ${KC_HOST} keycloak/certs/cert.pem keycloak/certs/key.pem keycloak/certs
+get_certs ${NC_HOST} certs/nextcloud/cert.pem certs/nextcloud/key.pem certs/nextcloud
+get_certs ${SY_HOST} certs/synapse/cert.pem certs/synapse/key.pem certs/synapse
+get_certs ${KC_HOST} certs/keycloak/cert.pem certs/keycloak/key.pem certs/keycloak

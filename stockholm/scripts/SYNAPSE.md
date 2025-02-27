@@ -1,4 +1,4 @@
-# README
+# Synapse Debugging
 
 Source: <https://github.com/element-hq/synapse/tree/develop/contrib/docker>
 
@@ -17,7 +17,7 @@ docker-compose up -d
 Create test user:
 
 ```shell
-docker exec -it nextcloud-synapse-1 bash
+docker compose exec -it synapse bash
 register_new_matrix_user -c /data/homeserver.yaml http://localhost:8008
 ```
 
