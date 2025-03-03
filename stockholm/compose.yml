@@ -28,8 +28,8 @@ services:
     image: quay.io/keycloak/keycloak:26.1.0
     command: start
     environment:
-      KC_HOSTNAME: keycloak.internal
-      KEYCLOAK_FRONTEND_URL: https://keycloak.internal
+      KC_HOSTNAME: ${KC_HOST}
+      KEYCLOAK_FRONTEND_URL: https://${KC_HOST}
       KC_HOSTNAME_STRICT_BACKCHANNEL: false
       KC_HTTP_ENABLED: false
       KC_HTTPS_CERTIFICATE_FILE: /etc/keycloak/certs/cert.pem
@@ -43,15 +43,19 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/${POSTGRES_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_HTTPS_PORT: 443
     volumes:
       - ./certs/keycloak:/etc/keycloak/certs:ro
     ports:
-      - ${KEYCLOAK_PORT}:8443
+      - ${KEYCLOAK_PORT}:443
     restart: always
     depends_on:
       - postgres
     networks:
-      - keycloak_network
+      keycloak_network:
+      shared_network:
+        aliases:
+          - ${KC_HOST}
 
   synapse:
     image: docker.io/matrixdotorg/synapse:latest
@@ -128,7 +132,26 @@ services:
       - ./certs/nextcloud:/etc/nginx/certs/nextcloud:ro
       - ./certs/synapse:/etc/nginx/certs/chat:ro
       - ./certs/keycloak:/etc/nginx/certs/keycloak:ro
+      - ./certs/secureweb:/etc/nginx/certs/secureweb:ro
 
+  apache:
+    build: secureweb
+    container_name: apache
+    environment:
+      - KC_HOST=${KC_HOST}
+      - KC_REALM=${KC_REALM}
+      - SW_CLIENT_ID=${SW_CLIENT_ID}
+      - SW_CLIENT_SECRET=${SW_CLIENT_SECRET}
+      - SW_HOST=${SW_HOST}
+    networks:
+      - shared_network
+    ports:
+      - '13033:80'
+    volumes:
+      - ./secureweb/files:/var/www/html
+      - ./ca/certs/roots.pem:/usr/local/share/ca-certificates/my-root-ca.crt
+    restart: always
+    command: ["/bin/sh", "-c", "update-ca-certificates && apachectl -D FOREGROUND"]
 
 volumes:
   nextcloud_aio_mastercontainer:
@@ -140,3 +163,4 @@ volumes:
 networks:
   keycloak_network:
     driver: bridge
+  shared_network:

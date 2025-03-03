@@ -45,4 +45,14 @@
     cache 30
 }
 
+{$SW_HOST} {
+    hosts {
+        {$SW_IP} {$SW_HOST}
+        reload 60s
+        fallthrough
+    }
+    errors
+    cache 30
+}
+
 # TODO add Keycloak

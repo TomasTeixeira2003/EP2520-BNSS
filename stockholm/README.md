@@ -77,3 +77,11 @@ must be taken.
         - The discovery endpoint has the following format:
 
         `https://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/{REALM}/.well-known/openid-configuration`
+
+- Secure Web Server
+    1. Create a client in Keycloak for the Secure Web Server. \
+        Use https://secureweb.internal as the Root URL and enable Client authentication. All other options are added by default
+
+    2. Update the environment variables SW_CLIENT_ID and SW_CLIENT_SECRET with the values for the specific client
+    3. Run the Apache Server through the central docker compose file.
+    

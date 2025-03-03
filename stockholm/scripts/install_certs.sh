@@ -5,6 +5,7 @@ set -e
 NC_HOST=${NC_HOST:-nextcloud.internal}
 SY_HOST=${SY_HOST:-chat.internal}
 KC_HOST=${KC_HOST:-keycloak.internal}
+SW_HOST=${SW_HOST:-secureweb.internal}
 
 CA_HOST=${CA_HOST:-localhost}
 CA_PORT=${CA_PORT:-9000}
@@ -29,3 +30,4 @@ function get_certs {
 get_certs ${NC_HOST} certs/nextcloud/cert.pem certs/nextcloud/key.pem certs/nextcloud
 get_certs ${SY_HOST} certs/synapse/cert.pem certs/synapse/key.pem certs/synapse
 get_certs ${KC_HOST} certs/keycloak/cert.pem certs/keycloak/key.pem certs/keycloak
+get_certs ${SW_HOST} certs/secureweb/cert.pem certs/secureweb/key.pem certs/secureweb
