@@ -92,5 +92,14 @@ must be taken.
     1. Create a client in Keycloak for the Secure Web Server. \
         Use <https://secureweb.internal> as the Root URL and enable Client authentication. All other options are added by default
 
+        For the 2 Factor Authentication to work we need to create a new Authentication Flow.\
+        In Keycloak admin panel go to Authentication -> Flows. Then duplicate the browser built-in flow.\
+        Edit the cloned flow.\
+        Disable the Cookie.\
+        In Browser 2FA Forms Alternative sub-flow, mark all child steps as Required.\
+        In the client for the Secure Web Server, go to the Advanced tab.\
+        At the bottom, on Authentication flow overrides options, select the flow that you configured as the Browser flow.
+        
+
     2. Update the environment variables SW_CLIENT_ID and SW_CLIENT_SECRET with the values for the specific client
     3. Run the Apache Server through the central docker compose file.
