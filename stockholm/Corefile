@@ -37,7 +37,17 @@
 
 {$SY_HOST} {
     hosts {
-        {$SY_IP} {$SY_IP}
+        {$SY_IP} {$SY_HOST}
+        reload 60s
+        fallthrough
+    }
+    errors
+    cache 30
+}
+
+{$KC_HOST} {
+    hosts {
+        {$KC_IP} {$KC_HOST}
         reload 60s
         fallthrough
     }

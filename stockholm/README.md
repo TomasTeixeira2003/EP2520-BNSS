@@ -37,7 +37,7 @@ Configurations of the Stockholm site.
 3. Generate the homeserver configuration for Synapse
 
     ```bash
-    docker compose run --rm -e SYNAPSE_SERVER_NAME=chat.internal -e SYNAPSE_REPORT_STATS=yes synapse generate
+    ./scripts/configure_synapse.sh
     ```
 
     For more on testing Synapse, check `./scripts/SYNAPSE.md`.
@@ -78,10 +78,19 @@ must be taken.
 
         `https://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/{REALM}/.well-known/openid-configuration`
 
+- Synapse
+
+    1. Create a Client in Keycloak by following the [documentation](https://element-hq.github.io/synapse/latest/openid.html#keycloak).
+
+    2. Then, after setting the `KC_CLIENT_SECRET` to the client secret, run the following script:
+
+        ```shell
+        KC_CLIENT_SECRET=${YOUR_SECRET_VALUE} ./scripts/configure_synapse.sh
+        ```
+
 - Secure Web Server
     1. Create a client in Keycloak for the Secure Web Server. \
-        Use https://secureweb.internal as the Root URL and enable Client authentication. All other options are added by default
+        Use <https://secureweb.internal> as the Root URL and enable Client authentication. All other options are added by default
 
     2. Update the environment variables SW_CLIENT_ID and SW_CLIENT_SECRET with the values for the specific client
     3. Run the Apache Server through the central docker compose file.
-    
