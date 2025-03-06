@@ -68,3 +68,64 @@ To create a site-to-site VPN we used the Wireguard of the router. To set this up
   - **Persistent Keepalive**
   - **Peer Public Key**: Paste the **Local Public Key** you got from Stockholm when you clicked on **Generate Key** button.
   - Click on **Apply Settings**
+
+## Intrusion Detection System
+
+To catch and log suspicious network traffic, [Suricata](https://suricata.io/) is installed on the Stockholm router.
+
+1. Get a USB stick with at least 500 MB of storage to hold the tool binaries and logs.
+2. Follow the [Entware](https://wiki.dd-wrt.com/wiki/index.php/Installing_Entware) installation guide.
+3. Install Suricata
+
+  ```shell
+  opkg install suricata
+  mkdir -p /opt/etc/suricata/rules
+  curl --output /opt/etc/suricata/rules/emerging.rules.tar.gz https://rules.emergingthreats.net/open/suricata-6.0.8/emerging.rules.tar.gz
+  tar -xzvf /opt/etc/suricata/rules/emerging.rules.tar.gz -C /opt/etc/suricata/rules/
+  ```
+
+3. Modify the Suricata configuration file `/opt/etc/suricata/suricata.yaml`
+
+  Make sure that the following keys are set to the following values
+
+  ```yaml
+  default-rule-path: /opt/etc/suricata/rules
+  rule-files:
+    - emerging*.rules
+  af-packet:
+    - interface: br0
+  ```
+
+4. Create the init.d file for Suricata
+
+  Create the file `/opt/etc/init.d/S02suricata` with the following content:
+
+  ```bash
+  #!/bin/sh
+  ENABLED=yes
+  PROCS=suricata
+  ARGS="-c /opt/etc/suricata/suricata.yaml --af-packet=br0"
+  PREARGS=""
+  DESC=$PROCS
+  PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+  . /opt/etc/init.d/rc.func
+  ```
+
+  Make it executable:
+  
+  ```bash
+  chmod +x /opt/etc/init.d/S02suricata
+  ```
+
+5. Start Suricata as a background process
+
+  ```bash
+  /opt/etc/init.d/S02suricata start
+  ```
+
+  Observe the logs in the file `/opt/var/log/suricata/suricata.log`
+
+  ```bash
+  tail -f /opt/var/log/suricata/suricata.log
+  ```
