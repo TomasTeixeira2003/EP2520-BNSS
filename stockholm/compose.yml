@@ -4,7 +4,7 @@ services:
     command: -conf /etc/coredns/Corefile
     ports:
       - "53/udp"
-      - "53/tcp" # TODO remove, no reason to have it 
+      - "53/tcp" # TODO remove, no reason to have it
     volumes:
       - ./Corefile:/etc/coredns/Corefile:ro
     environment:
@@ -149,19 +149,34 @@ services:
     networks:
       - shared_network
     ports:
-      - '13033:80'
+      - "13033:80"
     volumes:
       - ./secureweb/files:/var/www/html
       - ./ca/certs/roots.pem:/usr/local/share/ca-certificates/my-root-ca.crt
     restart: always
-    command: ["/bin/sh", "-c", "update-ca-certificates && apachectl -D FOREGROUND"]
+    command:
+      ["/bin/sh", "-c", "update-ca-certificates && apachectl -D FOREGROUND"]
 
+  openldap:
+    image: bitnami/openldap:2
+    ports:
+      - "1389:1389"
+    environment:
+      - LDAP_ADMIN_USERNAME=${LDAP_ADMIN_USERNAME}
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      - LDAP_ROOT=dc=acme,dc=internal
+    networks:
+      - keycloak_network
+    volumes:
+      - "openldap_data:/bitnami/openldap"
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer # This line is not allowed to be changed as otherwise the built-in backup solution will not work
   postgres_data:
     driver: local
   synapse-data:
+  openldap_data:
+    driver: local
 
 networks:
   keycloak_network:

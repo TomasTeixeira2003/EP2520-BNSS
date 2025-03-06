@@ -103,3 +103,15 @@ must be taken.
 
     2. Update the environment variables SW_CLIENT_ID and SW_CLIENT_SECRET with the values for the specific client
     3. Run the Apache Server through the central docker compose file.
+
+- Connect OpenLDAP to Keycloak
+
+  1. Vendor: `Other`
+  2. Connection URL: `ldap://openldap:1389`
+  3. Bind DN: `cn=<admin-user>,dc=acme,dc=internal`
+  4. Bind credentials: `<admin-pw>`
+  5. Edit mode: `WRITEABLE`
+  6. Users DN: `ou=users,dc=acme,dc=internal`
+  7. Username LDAP Attribute: `uid`
+  8. RDN LDAP Attribute: `uid`
+  
