@@ -3,8 +3,7 @@ services:
     image: docker.io/coredns/coredns
     command: -conf /etc/coredns/Corefile
     ports:
-      - "53/udp"
-      - "53/tcp" # TODO remove, no reason to have it
+      - "53:53/udp"
     volumes:
       - ./Corefile:/etc/coredns/Corefile:ro
     environment:
@@ -12,6 +11,10 @@ services:
       - NC_HOST=${NC_HOST}
       - SY_IP=${SY_IP}
       - SY_HOST=${SY_HOST}
+      - KC_HOST=${KC_HOST}
+      - KC_IP=${KC_IP}
+      - SW_HOST=${SW_HOST}
+      - SW_IP=${SW_IP}
 
   postgres:
     image: postgres:17.2
