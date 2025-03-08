@@ -1,11 +1,11 @@
 services:
   coredns:
-    image: docker.io/coredns/coredns
-    command: -conf /etc/coredns/Corefile
+    image: quay.io/wranders/coredns-filter:latest
     ports:
       - "53:53/udp"
     volumes:
-      - ./Corefile:/etc/coredns/Corefile:ro
+      - ./dns/Corefile:/Corefile:ro
+      - ./dns/blocklist.txt:/blocklist.txt
     environment:
       - NC_IP=${NC_IP}
       - NC_HOST=${NC_HOST}
