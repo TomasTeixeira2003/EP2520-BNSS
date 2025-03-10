@@ -14,6 +14,8 @@ cert_dir="./ca/certs/roots.pem"
 echo "Downloading root certificate and placing it in ${cert_dir}"
 mkdir -p ca/certs
 curl -fk https://${CA_HOST}:${CA_PORT}/roots.pem > ca/certs/roots.pem
+keytool -import -file ca/certs/roots.pem -alias rootCA -keystore ca/certs/truststore.jks
+chmod 666 ca/certs/truststore.jks
 
 function get_certs {
     hostname=$1

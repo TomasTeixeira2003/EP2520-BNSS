@@ -46,11 +46,15 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/${POSTGRES_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KC_HTTPS_PORT: 443
+      KC_HTTPS_PORT: ${KEYCLOAK_PORT}
+      KC_HTTPS_TRUST_STORE_FILE: /opt/keycloak/certs/truststore.jks
+      KC_HTTPS_TRUST_STORE_PASSWORD: ${KC_TRUST_STORE_PW}
+      KC_HTTPS_CLIENT_AUTH: request
     volumes:
       - ./certs/keycloak:/etc/keycloak/certs:ro
+      - ./ca/certs/truststore.jks:/opt/keycloak/certs/truststore.jks:ro
     ports:
-      - ${KEYCLOAK_PORT}:443
+      - ${KEYCLOAK_PORT}:${KEYCLOAK_PORT}
     restart: always
     depends_on:
       - postgres
@@ -146,13 +150,14 @@ services:
     environment:
       - KC_HOST=${KC_HOST}
       - KC_REALM=${KC_REALM}
+      - KEYCLOAK_PORT=${KEYCLOAK_PORT}
       - SW_CLIENT_ID=${SW_CLIENT_ID}
       - SW_CLIENT_SECRET=${SW_CLIENT_SECRET}
       - SW_HOST=${SW_HOST}
-    networks:
-      - shared_network
     ports:
       - "13033:80"
+    networks:
+      - shared_network
     volumes:
       - ./secureweb/files:/var/www/html
       - ./ca/certs/roots.pem:/usr/local/share/ca-certificates/my-root-ca.crt

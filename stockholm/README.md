@@ -30,6 +30,11 @@ Configurations of the Stockholm site.
     ./scripts/install_certs.sh
     ```
 
+    This script is asking you to set a password for the truststore.jks file.
+    This password needs to be stored in the KC_TRUST_STORE_PW environment variable, as it will be needed in configuring Keycloak.
+    It will also ask for permission if the included certificate should be trusted.
+    You should answer yes
+
     > NOTE: You must add the root certificate of the CA to your system's
     > and your browser's *trust store* to make your software trust the services.
     > This certificate is found at `ca/certs/roots.pem`
@@ -85,7 +90,7 @@ must be taken.
     2. Then, after setting the `KC_CLIENT_SECRET` to the client secret, run the following script:
 
         ```shell
-        KC_CLIENT_SECRET=${YOUR_SECRET_VALUE} ./scripts/configure_synapse.sh
+        KEYCLOAK_PORT=${KEYCLOAK_PORT} KC_CLIENT_SECRET=${YOUR_SECRET_VALUE} ./scripts/configure_synapse.sh
         ```
 
 - Secure Web Server
@@ -115,3 +120,24 @@ must be taken.
   7. Username LDAP Attribute: `uid`
   8. RDN LDAP Attribute: `uid`
   
+- If someone needs to authenticate using client credentials, one must use the scripts/create_client_certs.sh
+
+    e.g.
+
+    ```
+    ./scripts/create_client_certs.sh <CN> <folder_to_store_certs>
+    ./scripts/create_client_certs.sh bakalis certs/bakalis
+    ```
+
+    Then a new Custom Authentication flow needs to be created inside.
+    In Keycloak admin panel go to Authentication -> Flows. Then duplicate the browser built-in flow.\
+    Edit the cloned flow.\
+    Add a new step: X509/Validate Username Form Step
+
+    The additional configuration for the X509/Validate Username Form step is:
+
+    User Identity Source: Subject's Common Name
+    User mapping method: Username or Email
+
+    In the client that you want to setup client certificate authentication, go to the Advanced tab.\
+    At the bottom, on Authentication flow overrides options, select the flow that you configured as the Browser flow.

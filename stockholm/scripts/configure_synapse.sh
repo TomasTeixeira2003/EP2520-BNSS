@@ -24,7 +24,7 @@ if [ "$KC_CLIENT_SECRET" ]; then
 oidc_providers:
   - idp_id: keycloak
     idp_name: "ACME Keycloak"
-    issuer: "https://${KC_HOST}/realms/${KC_REALM}"
+    issuer: "https://${KC_HOST}:${KEYCLOAK_PORT}/realms/${KC_REALM}"
     client_id: "synapse"
     client_secret: "$KC_CLIENT_SECRET"
     scopes: ["openid", "profile"]
