@@ -2,10 +2,9 @@ eap {
     default_eap_type = tls
     tls-config tls-common {
 
-        private_key_file = ${certdir}/server.key
-        certificate_file = ${certdir}/server.crt
-        ca_file = ${certdir}/ca.crt
-
+        private_key_file = ${certdir}/key.pem
+        certificate_file = ${certdir}/cert.pem
+        ca_file = ${certdir}/roots.pem
         check_cert_cn = %{User-Name} 
         require_client_cert = yes
     }

@@ -33,3 +33,4 @@ get_certs ${NC_HOST} certs/nextcloud/cert.pem certs/nextcloud/key.pem certs/next
 get_certs ${SY_HOST} certs/synapse/cert.pem certs/synapse/key.pem certs/synapse
 get_certs ${KC_HOST} certs/keycloak/cert.pem certs/keycloak/key.pem certs/keycloak
 get_certs ${SW_HOST} certs/secureweb/cert.pem certs/secureweb/key.pem certs/secureweb
+get_certs ${RD_HOST} freeRADIUS/raddb/certs/cert.pem freeRADIUS/raddb/certs/key.pem freeRADIUS/raddb/certs
