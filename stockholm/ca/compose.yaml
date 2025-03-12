@@ -1,0 +1,15 @@
+services:
+  step-ca:
+    image: smallstep/step-ca:0.28.1
+    container_name: step-ca
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - DOCKER_STEPCA_INIT_NAME="ACME CA"
+      - DOCKER_STEPCA_INIT_DNS_NAMES=localhost
+      - DOCKER_STEPCA_INIT_PASSWORD_FILE=/password.txt
+    volumes:
+      - step-ca:/home/step
+      - ${PWD}/password.txt:/password.txt:ro
+volumes:
+  step-ca:
