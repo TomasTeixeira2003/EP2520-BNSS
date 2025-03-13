@@ -3,10 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Web Server</title>
+    <title>ACME Corp - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #800000;
+            padding: 15px;
+            text-align: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .banner {
+            background-color: #ffcc00;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .banner h1 {
+            font-size: 50px;
+            margin: 0;
+            color: #800000;
+        }
+        .banner img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border: 5px solid #800000;
+            border-radius: 10px;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>You now access secured web content</h1>
-    <a href="/logout">Logout</a>
+    <div class="navbar">
+        <a href="#products">Products</a>
+        <a href="#services">Services</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+        <a href="/logout">Logout</a>
+    </div>
+    <div class="banner">
+        <h1>Customer of the Year</h1>
+        <img src="./Coyote.webp" alt="Wile E. Coyote - Customer of the Year">
+    </div>
+    <div class="content">
+        <h2>Welcome to ACME Corp!</h2>
+        <p>Your one-stop shop for all cartoon physics-defying gadgets.</p>
+    </div>
 </body>
 </html>
