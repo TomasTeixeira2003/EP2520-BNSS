@@ -2,7 +2,7 @@
 
 ## Network Structure
 
-![network-diagram](https://gits-15.sys.kth.se/storage/user/26331/files/b9a86df0-822c-47a1-8b23-f83fc59c1d04)
+![network-diagram](network-diagram.png)
 
 ## Materials
 - [ASUS RT-AC68U](https://www.asus.com/networking-iot-servers/wifi-routers/asus-wifi-routers/rtac68u/) Router (Quantity: 2)
